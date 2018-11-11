@@ -94,16 +94,15 @@ public class EmployeeController {
     public JsonMsg getEmpById(@PathVariable("empId") Integer empId){
         Employee employee = employeeService.getEmpById(empId);
         if (employee != null){
-            return JsonMsg.success().addInfo("employee", employee);
+            return JsonMsg.success();
         }else {
             return JsonMsg.fail();
         }
-
     }
 
     /**
-     * 查询
-     * @param pageNo 查询指定页码包含的数据
+     * 查询指定页码包含的数据
+     * @param pageNo
      * @return
      */
     @RequestMapping(value = "/getEmpList", method = RequestMethod.GET)
@@ -111,9 +110,9 @@ public class EmployeeController {
         ModelAndView mv = new ModelAndView("employeePage");
         int limit = 5;
         // 记录的偏移量(即从第offset行记录开始查询)，
-        // 如第1页是从第1行(offset=(21-1)*5=0,offset+1=0+1=1)开始查询；
+        // 如第1页是从第1行(offset=(1-1)*5=0,offset+1=0+1=1)开始查询；
         // 第2页从第6行(offset=(2-1)*5=5,offset+1=5+1=6)记录开始查询
-        int offset = (pageNo-1)*limit;
+        int offset = (pageNo-1)*limit+1;
         //获取指定页数包含的员工信息
         List<Employee> employees = employeeService.getEmpList(offset, limit);
         //获取总的记录数
